@@ -4,6 +4,26 @@ body{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+
+}
+
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: var(--black); 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--black); 
+}
+
 :root{
     --red: #FF0000;
     --black: #282828;
@@ -13,28 +33,34 @@ body{
 {
     display: grid;
     grid-template-columns: 200px 1fr;
+    
+    height: 80vh;
 
 }
 
 .header{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px;
     margin-bottom: 10px;
     background-color: #1a1a1a;
     padding: 15px;
     color: #fff;
     border-bottom: 3px groove var(--red);
-    height: auto;
+    
+    height: 20%;
+    
 }
 
 .current-con, .next-con{
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 15% 85%;
 }
 .header label{
     display: flex;
     justify-content: right;
     margin-right: 10px;
+    align-items: center;
     
 }
 
@@ -45,15 +71,16 @@ body{
     
     
     display: block;
-    color: #fff;
-    background-color: #b82e2e;
-    padding: 2px;
+    color: #ed069b;
+    background-color: #fff;
+    padding: 7px;
     border-radius: 5px;
+    box-sizing: border-box;
    
   
 }
 .player-con{
-    height: calc(100vh - 42px);
+    height: 100%;
     padding: 0 10px;
     
    
@@ -65,9 +92,14 @@ iframe{
     border: 0;
    
 }
+.song-list{
+    height: 80vh;
+}
 .song-list-con
 {
-    
+    height: 80vh;
+    overflow-y: scroll;
+    box-sizing: border-box;
     padding:0 10px;
 }
 
@@ -77,6 +109,9 @@ iframe{
     
     color: #1a1a1a;
     padding: 10px;
+    height: 30px;
+    overflow: hidden;
+
     
 }
 .current-song{
@@ -88,33 +123,30 @@ iframe{
     
 }
 
+.current-song span{
+    display: block;
+    height: 100%;
+
+}
+
 .cancel{
     border: none;
-    border-radius: 10px;
-    background-color: #1a1a1a;
+    border-radius: 7px;
+    background-color: #d62f2f;
     position: absolute;
-    width: 100px;
-    padding: 10px;
+    width: 80px;
+    padding: 7px;
     color: #fff;
-    opacity: 0.9;
+    
     cursor: pointer;
+    opacity: 0.95;
+    font-weight: bold;
 
+}
+
+.cancel:hover{
+    background-color: var(--black);
 }
 
 
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .header{
-
-        grid-template-columns: none;
-        grid-template-rows: 1fr;
-        gap: 10px;
-    }
-
-    .current-con, .next-con{
-        grid-template-columns: 130px 1fr;
-    }
-
-  
-  
-}

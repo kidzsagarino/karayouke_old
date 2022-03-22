@@ -4,8 +4,20 @@ var app = {
     
     resultify: async function(data){
         var self = this;
-        let result = `<div class="row">`;
-        console.log(data);
+        
+        const rowDiv = document.createElement('DIV');
+        rowDiv.classList.add('row');
+
+        if(data.error){
+
+            if(data.error.code == 403){
+                self.promptAPIKey();
+
+                return;
+            }
+           
+            
+        }
         for(let item of data.items){
 
             console.log(item);
@@ -13,30 +25,49 @@ var app = {
             const videoID = item.id.videoId;
             const thumnail = item.snippet.thumbnails.medium.url;
             const title = item.snippet.title;
+
+            self.startLoader();
             const videoDetails = await apihelper.video(videoID);
+
+            if(videoDetails.error){
+                if(videoDetails.error.code == 403){
+                    self.promptAPIKey();
+                    return;
+                }
+                
+            }
+            self.stopLoader();
+            self.startLoader();
             const videoDuration = await videoDetails.items[0].contentDetails.duration;
+            if(videoDuration.error){
+                if(videoDuration.error.code == 403){
 
-            result += `<div class="result">
-                        <div class="top">
-                            <img class="thumbnail" src=${thumnail}>
-                            <button class="btn-reserve" data-id=${videoID} data-title="${title}" data-duration=${videoDuration}>+</button>
-                        </div>
-                      
-                            <p class="title"><small>${title}</small></p>
-                           
-                    </div>`;
+                    self.promptAPIKey();
+                    return;
+                }
+                
+            }
+            self.stopLoader();
 
+            const resultDiv = document.createElement('DIV');
+            resultDiv.classList.add('result');
 
-        }
-        result += '</div>';
-        
-        var resultDom = new DOMParser().parseFromString(result, 'text/html');
+            const topDiv = document.createElement('DIV');
+            topDiv.classList.add('top');
 
+            const thumnailImg = document.createElement('IMG');
+            thumnailImg.setAttribute('src', thumnail);
 
-        resultDom.querySelectorAll('.btn-reserve').forEach(function(item){
-            item.addEventListener('click', function(e){
+            const buttonReserve = document.createElement('BUTTON');
 
-                var song = {
+            buttonReserve.classList.add('btn-reserve');
+            buttonReserve.setAttribute('data-id', videoID);
+            buttonReserve.setAttribute('data-title', title);
+            buttonReserve.setAttribute('data-duration', videoDuration);
+            buttonReserve.innerHTML = 'RESERVE THIS SONG + ';
+
+            buttonReserve.addEventListener('click', function(e){
+                let song = {
                     id: e.target.getAttribute('data-id'),
                     title: e.target.getAttribute('data-title'),
                     duration: e.target.getAttribute('data-duration')
@@ -44,11 +75,30 @@ var app = {
                 
                 
                 self.reserveSong(song);
-               
-            });
-        })
+            })
 
-        return  resultDom.querySelector('.row');
+            topDiv.appendChild(thumnailImg);
+            topDiv.appendChild(buttonReserve);
+            resultDiv.appendChild(topDiv);
+
+            const pTitle = document.createElement('P');
+            pTitle.classList.add('title');
+
+            const smallTitle = document.createElement('small');
+            smallTitle.innerHTML = title;
+
+            pTitle.appendChild(smallTitle);
+
+            resultDiv.appendChild(pTitle);
+          
+            rowDiv.appendChild(resultDiv);
+
+        }
+      
+        
+        
+
+        return  rowDiv;
         
 
     },
@@ -68,33 +118,133 @@ var app = {
     
         window.localStorage.setItem('KaraokeList', JSON.stringify(newList));
     },
-    displayReservedSongs: function(){
-        var list = JSON.parse(window.localStorage.getItem('KaraokeList'));
-      
+    displayReservedSongs: function(songs, fn){
 
-        let songList = `<div class="song-list-con">`;
-        if(list.length > 0){
+        let songListCon = document.createElement('DIV');
+        songListCon.classList.add('class', 'song-list-con');
+
+        if(songs.length > 0){
         
-            for(let [i, item] of list.entries()){
-                songList += `<div class="song ${i==0 ? 'current-song': ''}" >
-                                <span>${item.title}</span>
-                            </div>`;
+            for(let [i, item] of songs.entries()){
+
+                let song = document.createElement('DIV');
+                song.classList.add('song');
+
+                if(i==0){
+
+                  
+                    song.classList.add('current-song');
+
+                    let hasButtonCancel = document.querySelector('.cancel');
+
+                    if(hasButtonCancel){
+                        return;
+                    }
+
+                    let button = document.createElement('BUTTON');
+                    button.setAttribute('class', 'cancel');
+        
+                    button.innerHTML = "STOP";
+        
+                    button.addEventListener('click', function(){
+                        
+                        fn();
+
+                    })
+
+                    song.appendChild(button);
+
+                    
+                }
+
+                let span = document.createElement('SPAN');
+
+                span.innerHTML = item.title;
+
+                song.appendChild(span);
+                
+                songListCon.appendChild(song);
+
             }
      
             
         }
         else{
-            songList += "<p>List is empty.</p>";
+           
+            let p = document.createElement('P');
+            p.innerHTML = 'List is empty.';
+
+            songListCon.appendChild(p);
         }
 
-        songList+= '</div>';
-
-        return new DOMParser().parseFromString(songList, 'text/html').querySelector('.song-list-con');
-
+        
+       return songListCon;
         
 
-    
-                
+    },
+    promptAPIKey: function(){
+
+        const hasPromptDiv = document.querySelector('.api-key-con');
+        
+        if(hasPromptDiv){
+            return;
+        }
+
+        const propmtDIV = document.createElement('DIV');
+
+        propmtDIV.classList.add('api-key-con');
+
+        const inputCon = document.createElement('DIV');
+        inputCon.classList.add('input-con');
+        propmtDIV.appendChild(inputCon);
+
+        const input = document.createElement('INPUT');
+        input.setAttribute('name', 'input-api-key');
+        input.setAttribute('placeholder', 'Paste/Enter Your API Key Here')
+
+        const saveAPIBtn = document.createElement('BUTTON');
+        saveAPIBtn.classList.add('btn-save-api');
+        saveAPIBtn.innerHTML = 'SAVE';
+
+        saveAPIBtn.addEventListener('click', function(){
+
+            let apiKey = document.querySelector('input[name=input-api-key]').value;
+
+            if(apiKey){
+                window.localStorage.setItem('YDAPIKey', input.value);
+                window.location.reload();
+            }
+            else{
+                return;
+            }
+
+            
+        });
+
+        inputCon.appendChild(input);
+        inputCon.appendChild(saveAPIBtn);
+
+        propmtDIV.appendChild(inputCon);
+
+        document.body.appendChild(propmtDIV);
+
+        
+    },
+    startLoader: function(){
+        let loaderCon = document.createElement('DIV');
+        loaderCon.classList.add('loader-con');
+
+        let loader = document.createElement('DIV');
+        loader.classList.add('loader');
+
+        loaderCon.appendChild(loader);
+        document.querySelector('.content').appendChild(loaderCon);
+
+        
+    },
+    stopLoader: function(){
+        document.querySelector('.loader-con').remove();
     }
+
 }
 export default app

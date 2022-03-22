@@ -35,7 +35,9 @@ window.addEventListener('DOMContentLoaded', async function(){
 
 async function loadResult(q){
 
+    sngr.startLoader();
     let result = await apiHelper.search(q);
+    sngr.stopLoader();
 
     document.querySelector('.search-result-container').innerHTML = '';
     document.querySelector('.search-result-container').append(await sngr.resultify(result));
