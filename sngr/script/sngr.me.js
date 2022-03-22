@@ -8,16 +8,6 @@ var app = {
         const rowDiv = document.createElement('DIV');
         rowDiv.classList.add('row');
 
-        if(data.error){
-
-            if(data.error.code == 403){
-                self.promptAPIKey();
-
-                return;
-            }
-           
-            
-        }
         for(let item of data.items){
 
             console.log(item);
@@ -28,14 +18,6 @@ var app = {
 
             self.startLoader();
             const videoDetails = await apihelper.video(videoID);
-
-            if(videoDetails.error){
-                if(videoDetails.error.code == 403){
-                    self.promptAPIKey();
-                    return;
-                }
-                
-            }
             self.stopLoader();
             self.startLoader();
             const videoDuration = await videoDetails.items[0].contentDetails.duration;
