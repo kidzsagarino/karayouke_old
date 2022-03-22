@@ -2,6 +2,12 @@
 async function fetchDataGet(url){
     return await fetch(url).then(function(data){
         return data.json();
+    }).catch(function(err){
+        if(err.error.code == 403 || err.error.code == 400){
+            self.promptAPIKey();
+
+            return;
+        }
     });
 }
 
