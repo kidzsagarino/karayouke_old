@@ -35,6 +35,7 @@ var app = {
 
             const thumnailImg = document.createElement('IMG');
             thumnailImg.setAttribute('src', thumnail);
+            thumnailImg.classList.add('thumbnail')
 
             const buttonReserve = document.createElement('BUTTON');
 
