@@ -139,6 +139,10 @@ input:focus{
 .top{
     position: relative;
 }
+
+.top img{
+    width: 100%;
+}
 .thumbnail{
     width: 100%;
     
