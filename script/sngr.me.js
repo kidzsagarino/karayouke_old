@@ -8,6 +8,12 @@ var app = {
         const rowDiv = document.createElement('DIV');
         rowDiv.classList.add('row');
 
+        if(!data){
+            return rowDiv;
+        }
+
+       
+
         for(let item of data.items){
 
             console.log(item);
@@ -16,20 +22,10 @@ var app = {
             const thumnail = item.snippet.thumbnails.medium.url;
             const title = item.snippet.title;
 
-            self.startLoader();
+           
             const videoDetails = await apihelper.video(videoID);
-            self.stopLoader();
-            self.startLoader();
+          
             const videoDuration = await videoDetails.items[0].contentDetails.duration;
-            if(videoDuration.error){
-                if(videoDuration.error.code == 403){
-
-                    self.promptAPIKey();
-                    return;
-                }
-                
-            }
-            self.stopLoader();
 
             const resultDiv = document.createElement('DIV');
             resultDiv.classList.add('result');
@@ -57,6 +53,8 @@ var app = {
                 
                 
                 self.reserveSong(song);
+
+                
             })
 
             topDiv.appendChild(thumnailImg);
@@ -78,14 +76,13 @@ var app = {
         }
       
         
-        
 
         return  rowDiv;
         
 
     },
     openPlayer: function(){
-        window.open('/player');
+        window.open('player.html');
     },
     reserveSong: function(song){
         var list = JSON.parse(window.localStorage.getItem('KaraokeList'));

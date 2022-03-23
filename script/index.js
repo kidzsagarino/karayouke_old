@@ -7,8 +7,6 @@ document.querySelector('.search-box').addEventListener('keydown', async function
     
     if(e.keyCode == 13)
     {
-        console.log(e);
-
         const q = e.target.value;
 
         if(q){
@@ -26,6 +24,15 @@ document.querySelector('.player').addEventListener('click', function(){
 
 });
 
+document.querySelector('.btn-search').addEventListener('click', function(){
+    const q = document.querySelector('.search-box').value;
+    if(q){
+        loadResult(q);
+    }
+
+   
+});
+
 
 window.addEventListener('DOMContentLoaded', async function(){
 
@@ -37,8 +44,10 @@ async function loadResult(q){
 
     sngr.startLoader();
     let result = await apiHelper.search(q);
-    sngr.stopLoader();
+    
 
     document.querySelector('.search-result-container').innerHTML = '';
     document.querySelector('.search-result-container').append(await sngr.resultify(result));
+
+    sngr.stopLoader();
 }

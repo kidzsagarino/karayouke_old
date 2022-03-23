@@ -62,9 +62,12 @@ input:focus{
     
     
 }
+.logo-con{
+    width: 200px;
+}
 .logo-con img
 {
-    width:43%;
+    width:100%;
 }
 
 .search-con{
@@ -72,15 +75,17 @@ input:focus{
     padding: 20px;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 350px 50px 100px;
+    grid-template-columns: 450px 50px 100px;
     justify-content: center;
+    align-items: center;
 }
 
 .search-box{
     font-size: 18px;
     height: 50px;
-    width: 350px;
+    width: 100%;
     padding-left: 10px;
+    border: none;
     
 }
 
@@ -90,31 +95,35 @@ input:focus{
     height: 50px;
     
     font-size: 20px;
-    background-color: #fff;
-    border: 1px solid var(--black);
-    border-left: none;
+    background-color: var(--red);
+    
+    border: none;
+    
     cursor: pointer;
 }
 
 
 .btn-search:hover{
    
-    background-color: #e5e5e5;
+    background-color: var(--black);
+    color: #fff;
     
 }
 .search-icon
 {
-    color: var(--black);
+    color: #fff;
     height: 25px;
 }
+
+
 
 .search-result-container{
     padding: 0 10px;
 }
 
 .player{
-   height: 50px;
-   width: 50px;
+   height: 65px;
+   width: 65px;
    cursor: pointer;
    padding-left: 100px;
    display: flex;
