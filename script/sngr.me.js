@@ -43,7 +43,7 @@ var app = {
             buttonReserve.setAttribute('data-id', videoID);
             buttonReserve.setAttribute('data-title', title);
             buttonReserve.setAttribute('data-duration', videoDuration);
-            buttonReserve.innerHTML = 'RESERVE THIS SONG + ';
+            buttonReserve.innerHTML = 'RESERVE THIS SONG';
 
             buttonReserve.addEventListener('click', function(e){
                 let song = {
