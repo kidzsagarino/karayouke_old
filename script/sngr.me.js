@@ -16,8 +16,6 @@ var app = {
 
         for(let item of data.items){
 
-            console.log(item);
-
             const videoID = item.id.videoId;
             const thumnail = item.snippet.thumbnails.medium.url;
             const title = item.snippet.title;
@@ -205,12 +203,12 @@ var app = {
 
         const requestAnchor = document.createElement('A');
         requestAnchor.setAttribute('href', 'https://forms.gle/JQZcWv78aSY3Mesm6');
-        requestAnchor.innerHTML = "Request An API Key";
+        requestAnchor.innerHTML = "Request An API Key.";
 
         const makeAnchor = document.createElement('A');
 
         makeAnchor.setAttribute('href', 'https://blog.hubspot.com/website/how-to-get-youtube-api-key');
-        makeAnchor.innerHTML = "How To Enable Youtube Data API V3";
+        makeAnchor.innerHTML = "Get your own API key by enabling Youtube Data API V3 in your google account.";
 
 
 

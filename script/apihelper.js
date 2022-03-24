@@ -1,7 +1,11 @@
 import sngr from './sngr.me.js'
 
 async function fetchDataGet(url){
-    return await fetch(url).then(function(data){
+    return await fetch(url,{
+        headers: {
+            "Accept-Encoding" : "gzip"
+        }
+    }).then(function(data){
 
         if(data.ok){
             return data.json();
