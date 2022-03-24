@@ -20,7 +20,7 @@ window.onstorage = function(){
 
 window.addEventListener('load', function(){
 
-    displayList()
+    displayList();
 
     play();
     

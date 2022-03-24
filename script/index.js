@@ -40,6 +40,7 @@ window.addEventListener('DOMContentLoaded', async function(){
 });
 
 
+
 async function loadResult(q){
 
     sngr.startLoader();

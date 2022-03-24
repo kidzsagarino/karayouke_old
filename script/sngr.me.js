@@ -97,6 +97,8 @@ var app = {
         
     
         window.localStorage.setItem('KaraokeList', JSON.stringify(newList));
+
+
     },
     displayReservedSongs: function(songs, fn){
 
@@ -201,8 +203,21 @@ var app = {
             
         });
 
+        const requestAnchor = document.createElement('A');
+        requestAnchor.setAttribute('href', 'https://forms.gle/JQZcWv78aSY3Mesm6');
+        requestAnchor.innerHTML = "Request An API Key";
+
+        const makeAnchor = document.createElement('A');
+
+        makeAnchor.setAttribute('href', 'https://blog.hubspot.com/website/how-to-get-youtube-api-key');
+        makeAnchor.innerHTML = "How To Enable Youtube Data API V3";
+
+
+
         inputCon.appendChild(input);
         inputCon.appendChild(saveAPIBtn);
+        inputCon.appendChild(requestAnchor);
+        inputCon.appendChild(makeAnchor)
 
         propmtDIV.appendChild(inputCon);
 
